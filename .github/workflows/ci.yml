@@ -1,20 +1,45 @@
-name: My First CI
+# name: My First CI
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Build
+#         run: echo "Build is successful"
+
+#       - name: Test
+#         run: echo "Test is successful"
+
+name: Maven CI
 
 on:
-  push:
-    branches:
-      - main
-
+	push:
+		branches:
+			- main
+	
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build
-        run: echo "Build is successful"
-
-      - name: Test
-        run: echo "Test is successful"
+	build:
+		runs-on: ubuntu-latest
+		
+		steps:
+			- name: Checkout code
+			  uses: actions/checkout@v4
+				
+			- name: setup java
+			  uses: actions/setup-java@v4
+			  with:
+  				java-version: '17'
+					distribution: 'temurin'
+					cache: maven
+				
+			- name: Build and Test
+			  run: mvn clean test
