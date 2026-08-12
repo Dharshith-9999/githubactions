@@ -29,3 +29,11 @@ jobs:
         with:
           name: github-actions-app
           path: github-actions-app/target/*.jar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy
+        run: echo "Deploy stage success"
