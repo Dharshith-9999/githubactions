@@ -54,3 +54,7 @@ jobs:
         run: cp -r app/ deployment/
       - name: display job name 
         run: 'echo "the job name: $JOB_NAME"'
+      - name: githubsecret
+        run: |
+          echo "secret configuration"
+          echo "secret value: ${{secrets.TEST_SECRET}}"
