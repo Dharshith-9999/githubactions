@@ -43,4 +43,4 @@ jobs:
       - name: create deployment directory
         run: mkdir deployment
       - name: copy jar file from app to deployment
-        run: cp app/ deployment/
+        run: cp -r app/ deployment/
