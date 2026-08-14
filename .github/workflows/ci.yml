@@ -35,5 +35,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy
-        run: echo "Deploy stage success"
+      - name: Downloading artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: github-actions-app
+          path: /app
+      - name: List downloads
+        run: ls -R
