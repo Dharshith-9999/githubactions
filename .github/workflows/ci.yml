@@ -40,5 +40,7 @@ jobs:
         with:
           name: github-actions-app
           path: app
-      - name: List downloads
-        run: ls -R
+      - name: create deployment directory
+        run: mkdir deployment
+      - name: copy jar file from app to deployment
+        run: cp app/ deployment/
