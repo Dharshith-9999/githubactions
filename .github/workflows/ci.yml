@@ -40,7 +40,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      Job_Name: deploy
+      JOB_NAME: deploy
 
     steps:
       - name: Downloading artifacts
@@ -53,4 +53,4 @@ jobs:
       - name: copy jar file from app to deployment
         run: cp -r app/ deployment/
       - name: display job name 
-        run: echo "the job name: $Job_Name"
+        run: echo "the job name: $JOB_NAME"
