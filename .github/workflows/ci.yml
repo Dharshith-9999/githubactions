@@ -58,3 +58,7 @@ jobs:
         run: |
           echo "secret configuration"
           echo "secret value: ${{secrets.TEST_SECRET}}"
+      - name: github value
+        run: |
+        echo: "github variable configuration"
+        echo: " variable: ${{var.DEPLOY_ENV}}"
