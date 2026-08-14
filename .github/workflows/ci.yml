@@ -61,4 +61,4 @@ jobs:
       - name: github value
         run: |
           echo: "github variable configuration"
-          echo: " variable: ${{var.DEPLOY_ENV}}"
+          echo: " variable: ${{vars.DEPLOY_ENV}}"
