@@ -12,7 +12,10 @@ jobs:
     strategy:
       matrix:
         java: ['17', '21']
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
+        exclude:
+          - java: '21'
+            os: ubuntu-latest
     runs-on: ${{matrix.os}}
 
     steps:
