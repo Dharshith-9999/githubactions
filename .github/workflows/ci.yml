@@ -34,6 +34,7 @@ jobs:
         working-directory: github-actions-app
 
       - name: Upload artifacts
+        if: matrix.java == '17'
         uses: actions/upload-artifact@v4
         with:
           name: github-actions-app
@@ -79,10 +80,6 @@ jobs:
         run: echo "running this from main brnach"
       - name: normally triggereing the step 
         run: echo "this normally execution"
-      - name: test failure
-        run: |
-          echo "Testing failure handling"
-          exit 1
       - name: Deploy success 
         if: success()
         run: echo "Deploy stage is success"
