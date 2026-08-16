@@ -63,3 +63,12 @@ jobs:
         run: |
           echo "github variable configuration"
           echo "variable: ${{vars.DEPLOY_ENV}}"
+      - name: github context 
+        run: |
+          echo "Branch: ${{github.ref}}"
+          echo "Triggered by: ${{github.actor}}"
+          echo "Repository: ${{github.repository}}"
+          echo "commit: ${{github.sha}}"
+          echo "workflow: ${{github.workflow}}"
+          echo "Run Number: ${{github.run_number}}"
+          
