@@ -75,7 +75,11 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: echo "running this from main brnach"
       - name: normally triggereing the step 
-        run: echo: "this normally execution"
+        run: echo "this normally execution"
+      - name: test failure
+        run: |
+          echo "Testing failure handling"
+          exit 1
       - name: Deploy success 
         if: success()
         run: echo "Deploy stage is success"
