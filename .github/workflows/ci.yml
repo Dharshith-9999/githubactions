@@ -71,4 +71,8 @@ jobs:
           echo "commit: ${{github.sha}}"
           echo "workflow: ${{github.workflow}}"
           echo "Run Number: ${{github.run_number}}"
-          
+      - name: step level if condition
+        if: github.ref == 'refs/heads/main'
+        run: echo "running this from main brnach"
+      - name: normally triggereing the step 
+        run: echo "this normally execution"
