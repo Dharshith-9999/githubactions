@@ -76,3 +76,10 @@ jobs:
         run: echo "running this from main brnach"
       - name: normally triggereing the step 
         run: echo "this normally execution"
+      - name: Deploy success 
+        if: success()
+        run: echo "Deploy stage is success"
+      - name: deploy failure
+        if: failure()
+        run: echo "deployment failed"
+        
