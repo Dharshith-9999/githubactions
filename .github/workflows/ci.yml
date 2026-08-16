@@ -16,11 +16,20 @@ jobs:
         exclude:
           - java: '21'
             os: ubuntu-latest
+        include:
+          - java: '17'
+            environment: Production
+          - java: '21'
+            environment: Testing
     runs-on: ${{matrix.os}}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: display matrix info
+        run: |
+          echo "java: ${{matrix.java}}"
+          echo "environment: ${{matrix.environment}}"
       - name: environment display
         run: |
           echo "appname: $APP_NAME"
