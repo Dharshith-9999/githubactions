@@ -9,6 +9,9 @@ env:
   APP_ENV: production
 jobs:
   build:
+    strategy:
+      matrix:
+        java: ['17', '21']
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +25,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: ${{matrix.java}}
           distribution: 'temurin'
           cache: maven
 
