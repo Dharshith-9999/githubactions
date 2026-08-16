@@ -13,9 +13,6 @@ jobs:
       matrix:
         java: ['17', '21']
         os: [ubuntu-latest]
-        exclude:
-          - java: '21'
-            os: ubuntu-latest
         include:
           - java: '17'
             environment: Production
