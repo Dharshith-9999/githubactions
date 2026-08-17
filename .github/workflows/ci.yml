@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "java: ${{matrix.java}}"
           echo "environment: ${{matrix.environment}}"
-      - name: environment display
+      - name: Display Environment
         run: |
           echo "appname: $APP_NAME"
           echo "appenvironment: $APP_ENV"
