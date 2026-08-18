@@ -13,9 +13,6 @@ jobs:
       matrix:
         java: ['17', '21']
         os: [ubuntu-latest]
-        exclude:
-          - java: '21'
-            os: ubuntu-latest
         include:
           - java: '17'
             environment: Production
@@ -30,7 +27,7 @@ jobs:
         run: |
           echo "java: ${{matrix.java}}"
           echo "environment: ${{matrix.environment}}"
-      - name: environment display
+      - name: Display Environment
         run: |
           echo "appname: $APP_NAME"
           echo "appenvironment: $APP_ENV"
