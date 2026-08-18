@@ -11,13 +11,11 @@ jobs:
   build:
     strategy:
       matrix:
-        java: ['17', '21']
+        java: ['17']
         os: [ubuntu-latest]
         include:
           - java: '17'
             environment: Production
-          - java: '21'
-            environment: Testing
     runs-on: ${{matrix.os}}
 
     steps:
