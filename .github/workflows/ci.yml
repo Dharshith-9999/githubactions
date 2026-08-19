@@ -96,6 +96,7 @@ jobs:
         if: failure()
         run: echo "deployment failed"
       - name: env secret testing
-        run: echo "ENV TESTING: ${{secrets.APP_STAGE}}"
+        run:  | 
+          echo "ENV TESTING: ${{secrets.APP_STAGE}}"
           
         
