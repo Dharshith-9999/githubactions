@@ -94,5 +94,7 @@ jobs:
         run: echo "Deploy stage is success"
       - name: deploy failure
         if: failure()
-        run: echo "deployment failed"
+        run: |
+          echo "deployment failed"
+          echo "the deployment failed at deploy stage"
         
