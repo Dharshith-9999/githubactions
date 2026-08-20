@@ -98,5 +98,7 @@ jobs:
       - name: env secret testing
         run:  | 
           echo "ENV TESTING: ${{secrets.APP_STAGE}}"
-          
+      - name: env specific variable
+        run:  | 
+          echo "ENV specifivc variable: ${{vars.DEPLOYMENT_TYPE}}"          
         
