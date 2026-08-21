@@ -73,6 +73,11 @@ jobs:
           ssh -i ~/.ssh/ec2_key.pem \
             "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
             "pkill -f '[g]ithub-actions-app-1.0-SNAPSHOT.jar' || true"
+      - name: REmove old jar
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem \
+            "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
+            "rm -f /opt/github-action-app/*.jar"
       - name: Copy JAR to EC2
         run: |
           scp -i ~/.ssh/ec2_key.pem \
@@ -84,6 +89,16 @@ jobs:
           ssh -i ~/.ssh/ec2_key.pem \
             "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
             "ls -l /opt/github-actions-app/"
+      - name: Start the application
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem \
+            "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
+            "cd /opt/github-actions-app && nohup java -jar github-actions-app-1.0-SNAPSHOT.jar > application.log 2>&1 &"
+      - name: Verify the application
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem \
+            "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
+            "ps -ef | grep '[j]ava.*github-actions-app-1.0-SNAPSHOT.jar'"
       - name: create deployment directory
         run: mkdir deployment
       - name: copy jar file from app to deployment
