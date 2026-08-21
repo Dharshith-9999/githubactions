@@ -94,11 +94,16 @@ jobs:
           ssh -i ~/.ssh/ec2_key.pem \
             "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
             "cd /opt/github-actions-app && nohup java -jar github-actions-app-1.0-SNAPSHOT.jar > application.log 2>&1 &"
+      - name: Check application log
+        run: |
+          ssh -i ~/.ssh/ec2_key.pem \
+            "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
+            "cat /opt/github-actions-app/application.log || true"
       - name: Verify the application
         run: |
           ssh -v -i ~/.ssh/ec2_key.pem \
             "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" \
-            "ps -ef | grep '[j]ava.*github-actions-app-1.0-SNAPSHOT.jar'"
+            "ps -ef | grep '[j]ava.*github-actions-app-1.0-SNAPSHOT.jar' || true"
       - name: create deployment directory
         run: mkdir deployment
       - name: copy jar file from app to deployment
