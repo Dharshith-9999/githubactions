@@ -1,0 +1,37 @@
+name: Advance topics
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubunt-latest
+    if: github.ref == 'ref/heads/main'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: |
+          echo "this is build stage"
+          run: mvn clean package
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - name: get version
+        id: get-version
+        run: |
+          version = '1.0.5'
+          echo "version=$version" >> $GITHUB_OUTPUT
+  deploy:
+    needs: 
+      - version
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        run: echo "deploy stage"
+      - name: version 
+        run: echo "version is: ${{ needs.version.outputs.app_version }}"
