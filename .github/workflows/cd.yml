@@ -34,4 +34,5 @@ jobs:
       - name: deploy
         run: echo "deploy stage"
       - name: version 
-        run: echo "version is: ${{ needs.version.outputs.app_version }}"
+        run: |
+          echo "version is: ${{ needs.version.outputs.app_version }}"
