@@ -12,6 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: build
+        woking-directory: ./github-actions-app
         run: |
           echo "this is build stage"
           mvn clean package
