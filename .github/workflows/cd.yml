@@ -6,15 +6,15 @@ on:
       - main
 jobs:
   build:
-    runs-on: ubunt-latest
-    if: github.ref == 'ref/heads/main'
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: checkout
         uses: actions/checkout@v4
       - name: build
         run: |
           echo "this is build stage"
-          run: mvn clean package
+          mvn clean package
   version:
     runs-on: ubuntu-latest
     outputs:
