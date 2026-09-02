@@ -22,3 +22,11 @@ jobs:
 
       - name: Verify AWS identity
         run: aws sts get-caller-identity
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Verify ECR
+        run: |
+          aws ecr describe-repositories \
+            --repository-names githubactions \
+            --region us-east-1
