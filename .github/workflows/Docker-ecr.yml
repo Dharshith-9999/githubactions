@@ -8,33 +8,65 @@ on:
 permissions:
   id-token: write
   contents: read
+
 jobs:
   docker-ecr:
     runs-on: ubuntu-latest
     environment: Testing
 
     steps:
-      - name: checkout Code
+      - name: Checkout Code
         uses: actions/checkout@v4
-      - name: build
+
+      - name: Check application changes
+        id: app-changes
+        shell: bash
+        run: |
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.event.after }}"
+
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "Initial push detected"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BEFORE" "$AFTER" -- github-actions-app/; then
+            echo "No application changes"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Application changes detected"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build
+        if: steps.app-changes.outputs.changed == 'true'
         run: mvn clean package
         working-directory: github-actions-app
-      - name: configure aws credentials
+
+      - name: Configure AWS credentials
+        if: steps.app-changes.outputs.changed == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::283609055440:role/GitHubActions-Testing-Deploy
           aws-region: us-east-1
-        
-      - name: loginto aws ecr
+
+      - name: Login to AWS ECR
+        if: steps.app-changes.outputs.changed == 'true'
         uses: aws-actions/amazon-ecr-login@v2
-      - name: Build docker image 
+
+      - name: Build Docker image
+        if: steps.app-changes.outputs.changed == 'true'
         run: |
           docker build -t githubactions:1.0 .
-      - name: tag docker image with ecr repository
+
+      - name: Tag Docker image with ECR repository
+        if: steps.app-changes.outputs.changed == 'true'
         run: |
-          docker tag githubactions:1.0 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
-          echo "docker images "
+          docker tag githubactions:1.0 \
+            283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
+
+          echo "Docker images:"
           docker images
+
       - name: Push Docker image to ECR
+        if: steps.app-changes.outputs.changed == 'true'
         run: |
           docker push 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
