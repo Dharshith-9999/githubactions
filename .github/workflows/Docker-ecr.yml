@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: checkout Code
         uses: actions/checkout@v4
+      - name: build
+        run: mvn clean package
+        working-directory: github-actions-app
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
