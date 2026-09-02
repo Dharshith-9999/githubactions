@@ -30,3 +30,9 @@ jobs:
       - name: Build docker image 
         run: |
           docker build -t githubactions:1.0 .
+      - name: tag docker image with ecr repository
+        run: |
+          docker tag githubactions:1.0 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
+          echo "docker images "
+          docker images
+          
