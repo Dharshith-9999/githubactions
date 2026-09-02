@@ -35,4 +35,6 @@ jobs:
           docker tag githubactions:1.0 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
           echo "docker images "
           docker images
-          
+      - name: Push Docker image to ECR
+        run: |
+          docker push 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
