@@ -55,13 +55,13 @@ jobs:
       - name: Build Docker image
         if: steps.app-changes.outputs.changed == 'true'
         run: |
-          docker build -t githubactions:1.0 .
+          docker build -t githubactions:${{ github.sha }} .
 
       - name: Tag Docker image with ECR repository
         if: steps.app-changes.outputs.changed == 'true'
         run: |
-          docker tag githubactions:1.0 \
-            283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
+          docker tag githubactions:${{ github.sha }} \
+            283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:${{ github.sha }}
 
           echo "Docker images:"
           docker images
@@ -69,4 +69,4 @@ jobs:
       - name: Push Docker image to ECR
         if: steps.app-changes.outputs.changed == 'true'
         run: |
-          docker push 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:1.0
+          docker push 283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:${{ github.sha }}
