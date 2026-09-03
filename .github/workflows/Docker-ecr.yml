@@ -95,5 +95,12 @@ jobs:
 
             sudo docker pull "$IMAGE"
 
-            echo "Pulled image:"
-            sudo docker images | head
+            sudo docker stop githubactions-app || true
+            sudo docker rm githubactions-app || true
+
+            sudo docker run -d \
+              --name githubactions-app \
+              -p 8080:8080 \
+              "$IMAGE"
+
+            sudo docker ps
