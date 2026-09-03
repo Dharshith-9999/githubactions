@@ -1,0 +1,53 @@
+name: Rollback Testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Git SHA of the image to deploy"
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment: Testing
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::283609055440:role/GitHubActions-Testing-Deploy
+          aws-region: us-east-1
+
+      - name: Rollback Testing EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            IMAGE="283609055440.dkr.ecr.us-east-1.amazonaws.com/githubactions:${{ inputs.image_tag }}"
+
+            echo "Rolling back to: $IMAGE"
+
+            aws ecr get-login-password --region us-east-1 | \
+              sudo docker login --username AWS --password-stdin \
+              283609055440.dkr.ecr.us-east-1.amazonaws.com
+
+            sudo docker pull "$IMAGE"
+
+            sudo docker stop githubactions-app || true
+            sudo docker rm githubactions-app || true
+
+            sudo docker run -d \
+              --name githubactions-app \
+              -p 8080:8080 \
+              "$IMAGE"
+
+            sudo docker inspect githubactions-app \
+              --format 'Deployed image: {{.Config.Image}}'
